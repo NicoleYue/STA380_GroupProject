@@ -1,102 +1,6 @@
 Visual Story Telling Part 1: green buildings
 ============================================
 
-    library(leaps)
-    library(tidyverse)
-
-    ## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-
-    ## v ggplot2 3.3.2     v purrr   0.3.4
-    ## v tibble  3.0.1     v dplyr   1.0.0
-    ## v tidyr   1.1.0     v stringr 1.4.0
-    ## v readr   1.3.1     v forcats 0.5.0
-
-    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-    library(ggplot2)
-    library(ggcorrplot)
-    library(mosaic)
-
-    ## Loading required package: lattice
-
-    ## Loading required package: ggformula
-
-    ## Loading required package: ggstance
-
-    ## 
-    ## Attaching package: 'ggstance'
-
-    ## The following objects are masked from 'package:ggplot2':
-    ## 
-    ##     geom_errorbarh, GeomErrorbarh
-
-    ## 
-    ## New to ggformula?  Try the tutorials: 
-    ##  learnr::run_tutorial("introduction", package = "ggformula")
-    ##  learnr::run_tutorial("refining", package = "ggformula")
-
-    ## Loading required package: mosaicData
-
-    ## Loading required package: Matrix
-
-    ## 
-    ## Attaching package: 'Matrix'
-
-    ## The following objects are masked from 'package:tidyr':
-    ## 
-    ##     expand, pack, unpack
-
-    ## Registered S3 method overwritten by 'mosaic':
-    ##   method                           from   
-    ##   fortify.SpatialPolygonsDataFrame ggplot2
-
-    ## 
-    ## The 'mosaic' package masks several functions from core packages in order to add 
-    ## additional features.  The original behavior of these functions should not be affected by this.
-    ## 
-    ## Note: If you use the Matrix package, be sure to load it BEFORE loading mosaic.
-    ## 
-    ## Have you tried the ggformula package for your plots?
-
-    ## 
-    ## Attaching package: 'mosaic'
-
-    ## The following object is masked from 'package:Matrix':
-    ## 
-    ##     mean
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     count, do, tally
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     cross
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     stat
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     binom.test, cor, cor.test, cov, fivenum, IQR, median, prop.test,
-    ##     quantile, sd, t.test, var
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     max, mean, min, prod, range, sample, sum
-
-    library(gridExtra)
-
-    ## 
-    ## Attaching package: 'gridExtra'
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     combine
-
 Read in the data and look at leasing rate to remove any outlier
 
     greenbuilding <- read_csv("./data/greenbuildings.csv")
@@ -376,37 +280,6 @@ variables in the dataset.
 
 Loading libraries for data visualization and maps.
 
-    knitr::opts_chunk$set(echo = TRUE)
-    library(ggplot2)
-    library(ggpubr)
-    library(tidyverse)
-    library(reshape2)
-
-    ## 
-    ## Attaching package: 'reshape2'
-
-    ## The following object is masked from 'package:tidyr':
-    ## 
-    ##     smiths
-
-    library(maps)
-
-    ## 
-    ## Attaching package: 'maps'
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     map
-
-    library(ggmap)
-
-    ## Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
-
-    ## Please cite ggmap if you use it! See citation("ggmap") for details.
-
-    library(ggrepel)
-    rm(list=ls())
-
 Reading files:
 
 -   **‘ABIA.csv’** contains information on every commercial flight in
@@ -448,14 +321,10 @@ very similar.
       xlab('Arrival Delay') +
       ggtitle('Distribution of Arrival Delays')
 
-    ## Warning: Removed 1601 rows containing non-finite values (stat_bin).
-
     ggplot(data = ABIA, aes(x=DepDelay)) + 
       geom_histogram(bins = 100, binwidth = 10) + 
       xlab('Departure Delay') +
       ggtitle('Distribution of Departure Delays')
-
-    ## Warning: Removed 1413 rows containing non-finite values (stat_bin).
 
 <img src="STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-15-1.png" width="50%" /><img src="STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-15-2.png" width="50%" />
 
@@ -471,8 +340,6 @@ decreases as distance increases.
     print(pl2 +
             xlab('Departure Delay') +
             ylab('Arrival Delay'))
-
-    ## Warning: Removed 1601 rows containing missing values (geom_point).
 
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-16-1.png)
 
@@ -504,8 +371,6 @@ delays over months.
                                colour=Distance)) +
       labs(title="Average Delays by Month")+
       scale_x_continuous("Month", limits=c(1,12), breaks=1:12)
-
-    ## Warning: Removed 1601 rows containing missing values (geom_point).
 
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-17-2.png)
 
@@ -551,8 +416,6 @@ entire day.
       ylab('Number of flights') + 
       scale_x_continuous("Scheduled depart time",limits=c(0,24),breaks=0:24)
 
-    ## Warning: Removed 1 rows containing missing values (geom_bar).
-
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-18-1.png)
 
     ggplot(data = ABIA) + 
@@ -560,8 +423,6 @@ entire day.
                                colour=Distance)) +
       labs(title = "Delay Time Over one Entire Day")+
       scale_x_continuous("CRSDepTime",limits=c(0,24),breaks=0:24)
-
-    ## Warning: Removed 1601 rows containing missing values (geom_point).
 
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-18-2.png)
 
@@ -609,8 +470,6 @@ capture the trend of average delays over a week.
                                colour=Distance)) +
       labs(title="Average Delays by DayOfWeek (Monday to Sunday)")+
       scale_x_continuous("DayOfWeek: 1 (Monday) - 7 (Sunday)",breaks=1:7)
-
-    ## Warning: Removed 1601 rows containing missing values (geom_point).
 
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-19-2.png)
 
@@ -774,44 +633,6 @@ on US map to visualize the delay time.
 Portfolio Modeling
 ==================
 
-    library(mosaic)
-    library(quantmod)
-
-    ## Loading required package: xts
-
-    ## Loading required package: zoo
-
-    ## 
-    ## Attaching package: 'zoo'
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     as.Date, as.Date.numeric
-
-    ## 
-    ## Attaching package: 'xts'
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     first, last
-
-    ## Loading required package: TTR
-
-    ## Registered S3 method overwritten by 'quantmod':
-    ##   method            from
-    ##   as.zoo.data.frame zoo
-
-    ## Version 0.4-0 included new data defaults. See ?getSymbols.
-
-    library(foreach)
-
-    ## 
-    ## Attaching package: 'foreach'
-
-    ## The following objects are masked from 'package:purrr':
-    ## 
-    ##     accumulate, when
-
 Goal and Overview:
 
 -   We created three portfolios investing in three categories of ETFs to
@@ -842,56 +663,6 @@ US Diversified Equities Portfolio
       expr = paste0(ticker, "a = adjustOHLC(", ticker, ")")
       eval(parse(text=expr))
     }
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SPY?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SPY?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/ONEQ?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/ONEQ?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/DIA?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/DIA?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/XLU?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/XLU?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/XLP?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/XLP?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
 
     # Combine all the returns in a matrix
     all_returns1 = cbind(   ClCl(SPYa),
@@ -938,56 +709,6 @@ US All-Bonds Portfolio
       eval(parse(text=expr))
     }
 
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SHY?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SHY?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/LQD?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/LQD?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/IBMI?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/IBMI?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/HYG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/HYG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/ICSH?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/ICSH?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
     # Combine all the returns in a matrix
     all_returns2 = cbind(   ClCl(SHYa),
                          ClCl(LQDa),
@@ -1028,81 +749,6 @@ Commodities ETF Portfolio
       expr = paste0(ticker, "a = adjustOHLC(", ticker, ")")
       eval(parse(text=expr))
     }
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
 
     # Combine all the returns in a matrix
     all_returns3 = cbind(   ClCl(SLVa),
@@ -1161,11 +807,11 @@ VaR and Comparisons
     # Profit/loss
     mean(sim1[,n_days])
 
-    ## [1] 101004.4
+    ## [1] 101148.9
 
     mean(sim1[,n_days] - initial_wealth)
 
-    ## [1] 1004.408
+    ## [1] 1148.883
 
     hist(sim1[,n_days]- initial_wealth, breaks=30, col = "light yellow",
          main = "US Diversified Portfolio_Gain/Loss", xlab = "Total Dollar Gain/Loss")
@@ -1177,14 +823,14 @@ VaR and Comparisons
     VaR_1
 
     ##        5% 
-    ## -7330.729
+    ## -6816.288
 
     ## 5% value at risk in terms of return:
     VaR_1_r <- VaR_1/100000
     VaR_1_r
 
     ##          5% 
-    ## -0.07330729
+    ## -0.06816288
 
     ##########################################################################
     # US All-Bonds Portfolio:
@@ -1217,11 +863,11 @@ VaR and Comparisons
     # Profit/loss
     mean(sim2[,n_days])
 
-    ## [1] 100259.8
+    ## [1] 100279.5
 
     mean(sim2[,n_days] - initial_wealth)
 
-    ## [1] 259.761
+    ## [1] 279.5222
 
     hist(sim2[,n_days]- initial_wealth, breaks=30, col = "light blue", 
          main = "US Bonds Portfolio_Gain/Loss", xlab = "Total Dollar Gain/Loss")
@@ -1233,14 +879,14 @@ VaR and Comparisons
     VaR_2
 
     ##        5% 
-    ## -1280.026
+    ## -1301.447
 
     ## 5% value at risk in terms of return:
     VaR_2_r <- VaR_2/100000
     VaR_2_r
 
     ##          5% 
-    ## -0.01280026
+    ## -0.01301447
 
     ##########################################################################
     # Commodities ETF Portfolio:
@@ -1255,81 +901,6 @@ VaR and Comparisons
       expr = paste0(ticker, "a = adjustOHLC(", ticker, ")")
       eval(parse(text=expr))
     }
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SLV?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/SOYB?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/UNG?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/USO?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=div&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query1.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
-
-    ## Warning in read.table(file = file, header = header, sep = sep,
-    ## quote = quote, : incomplete final line found by readTableHeader
-    ## on 'https://query2.finance.yahoo.com/v7/finance/download/CPER?
-    ## period1=-2208988800&period2=1597708800&interval=1d&events=split&crumb=1DLTcsWqnFj'
 
     # Combine all the returns in a matrix
     all_returns3 = cbind(   ClCl(SLVa),
@@ -1368,11 +939,11 @@ VaR and Comparisons
     # Profit/loss
     mean(sim3[,n_days])
 
-    ## [1] 99151.89
+    ## [1] 99178.59
 
     mean(sim3[,n_days] - initial_wealth)
 
-    ## [1] -848.1075
+    ## [1] -821.4124
 
     hist(sim3[,n_days]- initial_wealth, breaks=30,, col = "light green", 
          main = "Commodities Portfolio_Gain/Loss", xlab = "Total Dollar Gain/Loss")
@@ -1384,14 +955,14 @@ VaR and Comparisons
     VaR_3
 
     ##        5% 
-    ## -10466.93
+    ## -9948.075
 
     ## 5% value at risk in terms of return:
     VaR_3_r <- VaR_3/100000
     VaR_3_r
 
-    ##         5% 
-    ## -0.1046693
+    ##          5% 
+    ## -0.09948075
 
 -   With computations done in R, we obtained the following results for
     5% Value at Risk (in terms of dollar amount and return) for the
@@ -1742,12 +1313,6 @@ Clustering
       cluster_k = kmeans(Zmkt, k, nstart=50)
       cluster_k$tot.withinss }
 
-    ## Warning: did not converge in 10 iterations
-
-    ## Warning: did not converge in 10 iterations
-
-    ## Warning: did not converge in 10 iterations
-
     plot(k_grid, SSE_grid)
 
 ![](STA_380_Ex_files/figure-markdown_strict/unnamed-chunk-30-1.png)
@@ -1758,8 +1323,6 @@ use the elbow graph to determine the best k value, and from the graph,
 we choose k=10.
 
     clust1 = kmeans(Zmkt, 10, nstart=25)
-
-    ## Warning: did not converge in 10 iterations
 
     # plot the clustering result
     plotcluster(Zmkt,clust1$cluster)
@@ -2167,131 +1730,6 @@ Author attribution
 
 Load libraries needed for test mining and classification models.
 
-    knitr::opts_chunk$set(echo = TRUE)
-    library(tm) 
-
-    ## Loading required package: NLP
-
-    ## 
-    ## Attaching package: 'NLP'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     annotate
-
-    ## 
-    ## Attaching package: 'tm'
-
-    ## The following object is masked from 'package:mosaic':
-    ## 
-    ##     inspect
-
-    library(tidyverse)
-    library(slam)
-    library(proxy)
-
-    ## 
-    ## Attaching package: 'proxy'
-
-    ## The following object is masked from 'package:Matrix':
-    ## 
-    ##     as.matrix
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     as.dist, dist
-
-    ## The following object is masked from 'package:base':
-    ## 
-    ##     as.matrix
-
-    library(plyr)
-
-    ## ------------------------------------------------------------------------------
-
-    ## You have loaded plyr after dplyr - this is likely to cause problems.
-    ## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-    ## library(plyr); library(dplyr)
-
-    ## ------------------------------------------------------------------------------
-
-    ## 
-    ## Attaching package: 'plyr'
-
-    ## The following object is masked from 'package:maps':
-    ## 
-    ##     ozone
-
-    ## The following object is masked from 'package:ggpubr':
-    ## 
-    ##     mutate
-
-    ## The following object is masked from 'package:mosaic':
-    ## 
-    ##     count
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-    ##     summarize
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     compact
-
-    library(class)
-    library(kknn) 
-    library(tree)
-
-    ## Registered S3 method overwritten by 'tree':
-    ##   method     from
-    ##   print.tree cli
-
-    library(caret)
-
-    ## 
-    ## Attaching package: 'caret'
-
-    ## The following object is masked from 'package:kknn':
-    ## 
-    ##     contr.dummy
-
-    ## The following object is masked from 'package:mosaic':
-    ## 
-    ##     dotPlot
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     lift
-
-    library(dplyr)
-    library(naivebayes)
-
-    ## naivebayes 0.9.7 loaded
-
-    library(randomForest)
-
-    ## randomForest 4.6-14
-
-    ## Type rfNews() to see new features/changes/bug fixes.
-
-    ## 
-    ## Attaching package: 'randomForest'
-
-    ## The following object is masked from 'package:gridExtra':
-    ## 
-    ##     combine
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     combine
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     margin
-
-    library(e1071)
-
 Reading files and Data prepocessing
 
 Get the list of names for all the authors:
@@ -2622,11 +2060,6 @@ Train the Naive Bayes model, and check accuracy on the test set.
 
     model <- naive_bayes(author ~ ., data = tdm.stack.full[tr,], laplace = 1)
     preds <- predict(model, newdata = tdm.stack.full[-tr,])
-
-    ## Warning: predict.naive_bayes(): more features in the newdata are provided as
-    ## there are probability tables in the object. Calculation is performed based on
-    ## features to be found in the tables.
-
     accuracy <- mean(preds == tdm.cand[-tr])
     cat("Naive Bayes accuracy: ", accuracy,'.\n')
 
@@ -2779,41 +2212,6 @@ provides the highest accuracy.
 
 Association Rule Mining
 =======================
-
-    library(tidyverse)
-    library(arules)  
-
-    ## 
-    ## Attaching package: 'arules'
-
-    ## The following object is masked from 'package:tm':
-    ## 
-    ##     inspect
-
-    ## The following objects are masked from 'package:mosaic':
-    ## 
-    ##     inspect, lhs, rhs
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     recode
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     abbreviate, write
-
-    library(arulesViz)
-
-    ## Loading required package: grid
-
-    ## Registered S3 methods overwritten by 'registry':
-    ##   method               from 
-    ##   print.registry_field proxy
-    ##   print.registry_entry proxy
-
-    ## Registered S3 method overwritten by 'seriation':
-    ##   method         from 
-    ##   reorder.hclust gclus
 
 -   Read in Data
 
@@ -2977,7 +2375,7 @@ together) and slightly raise the confidence to **0.25**.
     ## Absolute minimum support count: 9 
     ## 
     ## set item appearances ...[0 item(s)] done [0.00s].
-    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.00s].
+    ## set transactions ...[169 item(s), 9835 transaction(s)] done [0.01s].
     ## sorting and recoding items ... [157 item(s)] done [0.00s].
     ## creating transaction tree ... done [0.00s].
     ## checking subsets of size 1 2 3 done [0.00s].

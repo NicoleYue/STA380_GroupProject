@@ -7,11 +7,11 @@ output: md_document
 
 # Visual Story Telling Part 1: green buildings
 
-```{r , include=FALSE}
+```{r , include=FALSE,warning = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include=FALSE,warning = FALSE}
 library(leaps)
 library(tidyverse)
 library(ggplot2)
@@ -21,7 +21,7 @@ library(gridExtra)
 ```
 
 Read in the data and look at leasing rate to remove any outlier
-```{r}
+```{r,warning = FALSE}
 greenbuilding <- read_csv("./data/greenbuildings.csv")
 greenbuilding <- na.omit(greenbuilding)
 attach(greenbuilding)
@@ -30,7 +30,7 @@ boxplot(leasing_rate)
 ```
 
 Remove buildings with occupancy rate < 10
-```{r}
+```{r,warning = FALSE}
 greenbuilding<-greenbuilding[!(greenbuilding$leasing_rate<10),]
 ```
 
@@ -38,7 +38,7 @@ Our team does not agree with the analysis of stats guru as he is using a single 
 
 Make a correlation matrix to investigate the association between Rent and other continuous variables. We notice that *Rent* has strong positive correlation with *Cluster Rent* and moderate positive correlation *Electricity_Costs*. It also has a weak negative correlation with *total_dd_07*
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,warning = FALSE}
 green_contin <- greenbuilding[,-c(1,2,9,10,11,12,13,14,15)]
 ggcorrplot(round(cor(green_contin),1), hc.order = TRUE, outline.col = "white",
            lab = TRUE, colors = c("#6D9EC1", "white", "#E46726"))
@@ -46,7 +46,7 @@ ggcorrplot(round(cor(green_contin),1), hc.order = TRUE, outline.col = "white",
 
 Investigate the distribution of rent based on categorical variables with boxplots. *ClassA* buildings have a higher median of Rent. Buildings that haven't been renovated yet also have a higher median of Rent.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,warning = FALSE}
 col_names <-c('renovated','class_a','class_b','green_rating','net','amenities')
 greenbuilding[,col_names] <- lapply(greenbuilding[,col_names],factor)
 
@@ -80,7 +80,7 @@ Next we are going to investigate the relationship between class_a and green_rati
 
 The proportion of green buildings by class
 
-```{r}
+```{r,warning = FALSE}
 library(tidyverse)
 green_class = greenbuilding %>%
   group_by(green_rating) %>%
@@ -98,7 +98,7 @@ ggplot(green_class_long, aes(fill=class, y=value, x=green_rating)) +
     geom_bar(position="stack", stat="identity", width = 0.5)+
      scale_fill_hue(c=45, l=80)
 ```
-```{r}
+```{r,warning = FALSE}
 
 onlygreen <- greenbuilding[greenbuilding$green_rating==1,]
 nongreen <- greenbuilding[!(greenbuilding$green_rating==1),]
@@ -124,7 +124,7 @@ grid.arrange(g1, g2, nrow = 1)
 
 Around **79.6%** of green buildings fall into the class A category versus only **36.9%** non-green buildings are classified as A. The huge difference in the proportion of class-A buildings could be the reason of green buildings having a higher median rent value. 
 
-```{r}
+```{r,warning = FALSE}
 c1<-ggplot(greenbuilding) + 
   geom_point(aes(x=cd_total_07, y=Rent,color=green_rating))
 
@@ -138,7 +138,7 @@ c3<-ggplot(greenbuilding) +
 grid.arrange(c1, c2,c3, nrow = 3)
 ```
 
-```{r}
+```{r,warning = FALSE}
 l1 <- ggplot(data=greenbuilding,aes(x=green_rating, y=cd_total_07)) + 
   geom_boxplot() +
   labs(
@@ -170,7 +170,7 @@ Another reason that we don't agree with the guru is that he assumes if there is 
 
 When investigating all the class-A buildings, we found out the median rent of green buildings is lower than non-green buildings within the age range (5 - 9). And the rent price fluctuates with the change of building age. Therefore, it is invalid for the guru to assume the extra revenue will remain fixed over years until the costs for green building is recuperated.
 
-```{r}
+```{r,warning = FALSE}
 classA <- greenbuilding[(greenbuilding$class_a == 1),]
 age_lessthan10 <- classA[(classA$age <= 10),]
 
@@ -200,7 +200,7 @@ Future Recommendations:
 We want figure out to how to minimize delays, by looking into different variables in the dataset.
 
 Loading libraries for data visualization and maps.
-```{r, include=TRUE}
+```{r, include=FALSE,warning = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(ggpubr)
@@ -218,7 +218,7 @@ Reading files:
 * **'ABIA.csv'** contains information on every commercial flight in 2008 that either departed from or landed at Austin-Bergstrom Interational Airport.
 * **'airports_code.csv'** contains the airport code of all airports around the world, as well as the longtitude and latitude for each airport.
 
-```{r}
+```{r,warning = FALSE}
 ABIA <- read_csv("./data/ABIA.csv")
 airports_code = read.csv('./data/airports_code.csv', header=FALSE)
 airports_code = airports_code[,c('V5','V7','V8')]
@@ -229,7 +229,7 @@ Basic analysis on Arrival Delay and Departure Delay:
 
 First, we draw the histogram to show the distribution of arrival delays and departure delays.From the histograms, we can see that both ArrDelay and DepDelay are centered around 0. The overall trend of both graphs are very similar.
 
-```{r,out.width=c('50%', '50%'), fig.show='hold'}
+```{r,out.width=c('50%', '50%'), fig.show='hold',warning = FALSE}
 ggplot(data = ABIA, aes(x=ArrDelay)) + 
   geom_histogram(bins = 100, binwidth = 10) + 
   xlab('Arrival Delay') +
@@ -245,7 +245,7 @@ ggplot(data = ABIA, aes(x=DepDelay)) +
 
 Then we draw the scatter plot to analyze the correlation between arrival delay and departure delay.From the graph below, we found out that arrival delay and departure delay have a clear positive linear relationship. In cases where departure delay is the same, arrival delay decreases as distance increases.
 
-```{r}
+```{r,warning = FALSE}
 pl2 <- ggplot(data = ABIA) + 
   geom_point(mapping = aes(x = DepDelay, y = ArrDelay, 
                            color = Distance))
@@ -261,7 +261,7 @@ We draw a bar graph to show the frequency of flights over months. We also draw o
 * From the line graph, we can find out that arrival delays are always lower than departure delays. 
 * Average arrival delays and average departure delays are relatively lower during September, October, and  November. Therefore, those three months could be good choices to fly to minimize delays.
 
-```{r}
+```{r,warning = FALSE}
 ggplot(data = ABIA, aes(x=Month)) + 
   geom_bar() + 
   ggtitle("Number of flights by Month") +
@@ -298,7 +298,7 @@ We draw a bar graph to show the frequency of flights over scheduled departure ti
 * From the line graph, we can find out that for most of times, arrival delays are lower than departure delays. 
 * Average arrival delays and average departure delays are relatively lower in the early morning, like from 6 AM to 10 AM. Therefore, people should choose to fly in the morning to minimize delays.
 
-```{r}
+```{r,warning = FALSE}
 ABIA$CRSDepTime2 <- as.integer(CRSDepTime/100)+1
 
 ggplot(data = ABIA, aes(x=CRSDepTime2)) + 
@@ -337,7 +337,7 @@ We draw a bar graph to show the frequency of flights over days in a week. Moreov
 * From the line graph, we can find out that arrival delays are always lower than departure delays. 
 * Average arrival delays and average departure delays are relatively lower on Wednesday and Saturday. Therefore, people should choose those two days to fly in order to minimize delays.
 
-```{r}
+```{r,warning = FALSE}
 ggplot(data = ABIA, aes(x=DayOfWeek)) + 
   geom_bar() + 
   ggtitle("Number of flights by DayOfWeek") +
@@ -374,7 +374,7 @@ We first draw a bar graph to show the frequency of flights over different flight
 * From the second bar graph, we find out the average delay time for F9 and US are relatively lower than others. Therefore, we could choose those two carriers to minimize delays.
 * From the second bar graph, average arrival delays and average departure delays are relatively higher for B6 and YV, people should aviod taking fights of those two carriers if they want to have less delays.
 
-```{r}
+```{r,warning = FALSE}
 ABIA2 = ABIA[,-c(23)]
 ABIA2 <- na.omit(ABIA2)
 
@@ -413,7 +413,7 @@ We first draw two bar graph to show the frequency of flights over different orig
 * From the first map graph, which shows flights from other orgin cites to Austin Airport, we find out that the average delays are the highest for OKC and TYS. Thus, people should avoid taking fights from those two airports to Austin-Bergstrom Interational Airport in order to minimize delays.
 * From the second map graph, which shows flights from Austin Airport to other Destination cites, we find out that the average delays are the highest for DSM and STL Thus, people should avoid fly from Austin to those two airports in order to minimize delays.
 
-```{r}
+```{r,warning = FALSE}
 arrivals <- ABIA [(ABIA$Dest == "AUS") & ABIA$Cancelled==0,]
 departures <- ABIA[(ABIA$Origin=="AUS") & ABIA$Cancelled==0,]
 
@@ -439,7 +439,7 @@ ggplot(data = departures, aes(x=Dest)) +
 ```
 
 
-```{r}
+```{r,warning = FALSE}
 map.opts <- theme(panel.grid.minor=element_blank(), 
                   panel.grid.major=element_blank(),
                   panel.background=element_blank(), 
@@ -480,7 +480,7 @@ p2
 
 
 # Portfolio Modeling 
-```{r}
+```{r, include=FALSE,warning = FALSE}
 library(mosaic)
 library(quantmod)
 library(foreach)
@@ -491,7 +491,7 @@ Goal and Overview:
 * We created three portfolios investing in three categories of ETFs to test their respective four-trading-week Value at Risk at the 5% level using past five years of data (starting from 2015-08-01). The three categories we picked are US Equities, US Bonds and Commodities. We decided to allocate $100,000 for each of the three portfolios and each of them would contain five ETFs with equal weights (20% in each ETF) which we assume to rebalance daily. This way, each of the ETF in a portfolio will always contain 20% of total wealth at the beginning of each trading day. 
 
 US Diversified Equities Portfolio
-```{r}
+```{r,warning = FALSE}
 
 mystocks1 = c("SPY", "ONEQ", "DIA", "XLU", "XLP")
 myprices = getSymbols(mystocks1, from = "2015-08-01")
@@ -523,7 +523,7 @@ all_returns1 = as.matrix(na.omit(all_returns1))
 
 
 US All-Bonds Portfolio
-```{r}
+```{r,warning = FALSE}
 
 mystocks2 = c("SHY", "LQD", "IBMI", "HYG", "ICSH")
 myprices = getSymbols(mystocks2, from = "2015-08-01")
@@ -555,7 +555,7 @@ all_returns2 = as.matrix(na.omit(all_returns2))
 
 
 Commodities ETF Portfolio
-```{r}
+```{r,warning = FALSE}
 
 mystocks3 = c("SLV", "SOYB", "UNG", "USO", "CPER")
 myprices = getSymbols(mystocks3, from = "2015-08-01")
@@ -587,7 +587,7 @@ all_returns3 = as.matrix(na.omit(all_returns3))
 
 
 VaR and Comparisons
-```{r}
+```{r,warning = FALSE}
 
 ##########################################################################
 # US Diversified-Equities Portfolio
@@ -747,7 +747,7 @@ VaR_3_r
 # Market Segmentation 
 
 Problem: Your task to is analyze this data as you see fit, and to prepare a concise report for NutrientH20 that identifies any interesting market segments that appear to stand out in their social-media audience. 
-```{r}
+```{r,warning = FALSE}
 library(ggplot2)
 library(tidyverse)
 library(foreach)
@@ -764,7 +764,7 @@ Zmkt = scale(mkt, center=TRUE, scale=TRUE)
 ```
 
 Correlation
-```{r}
+```{r,warning = FALSE}
 cor(Zmkt)
 
 ggcorrplot::ggcorrplot(cor(Zmkt), hc.order = TRUE)
@@ -775,7 +775,7 @@ ggcorrplot::ggcorrplot(cor(Zmkt), hc.order = TRUE)
 First we tried to make a plot to show all the correlation between each variables. We get that some variables are highly correlated such as parenting, religion, sports_fandom,food and school; fashion, cooking, beauty; personal_fitness, health_nutrition and outdoor; politics, travel, computers;college_uni, online_gaming, sports_playing.
 
 Clustering
-```{r}
+```{r,warning = FALSE}
 mu = attr(Zmkt,"scaled:center")
 sigma = attr(Zmkt,"scaled:scale")
 
@@ -791,14 +791,14 @@ plot(k_grid, SSE_grid)
 
 We want to use clustering to identify what categories have similar features. The first step is to find the best number of clusters k. We use the elbow graph to determine the best k value, and from the graph, we choose k=10.
 
-```{r}
+```{r,warning = FALSE}
 clust1 = kmeans(Zmkt, 10, nstart=25)
 
 # plot the clustering result
 plotcluster(Zmkt,clust1$cluster)
 ```
 
-```{r}
+```{r,warning = FALSE}
 clust_frame <- as.data.frame(cbind(clust1$center[1,]*sigma + mu,
                                    clust1$center[2,]*sigma + mu,
                                    clust1$center[3,]*sigma + mu,
@@ -881,7 +881,7 @@ Among this clusters, sports_fandom, college_uni, tv_film and religion appeared t
 
 
 Principal Component Analysis
-```{r}
+```{r,warning = FALSE}
 pc2 = prcomp(Zmkt, scale=TRUE)
 plot(pc2)
 summary(pc2)
@@ -889,7 +889,7 @@ summary(pc2)
 ```
 From the principal component analysis, in PC12 the cumulative proportion reached 0.7.
 
-```{r}
+```{r,warning = FALSE}
 
 loadings2 = pc2$rotation
 scores2 = pc2$x
@@ -921,7 +921,7 @@ loadings_summary %>%
 ```
 
 
-```{r}
+```{r,warning = FALSE}
 print('PC1')
 o1 = order(loadings2[,1], decreasing=TRUE)
 colnames(Zmkt)[head(o1,5)]
@@ -963,7 +963,7 @@ From the clustering principal component analysis, we think the market can segmen
 
 
 Load libraries needed for test mining and classification models.
-```{r , include=TRUE}
+```{r , include=FALSE,warning = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tm) 
 library(tidyverse)
@@ -983,7 +983,7 @@ library(e1071)
 Reading files and Data prepocessing
 
 Get the list of names for all the authors:
-```{r}
+```{r,warning = FALSE}
 list.names <- list.files(path = "./data/ReutersC50/C50train", pattern = NULL, 
                         all.files = FALSE, full.names = FALSE, recursive = FALSE,
                         ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE)
@@ -991,7 +991,7 @@ list.names
 ```
 
 Create the path to get train and test set data:
-```{r}
+```{r,warning = FALSE}
 path.train <- "./data/ReutersC50/C50train"
 path.test <- "./data/ReutersC50/C50test"
 ```
@@ -1003,7 +1003,7 @@ Create a function to clean the raw documents using text mining:
 * Remove punctuation
 * Remove excess space
 * Remove stop words
-```{r}
+```{r,warning = FALSE}
 cleanCorpus <- function(documents_raw) {
   my_documents = documents_raw %>%
     tm_map(content_transformer(tolower))  %>%   
@@ -1023,7 +1023,7 @@ Create a function to
 * Create Term document matrix
 * Remove Sparse Terms
 * Calculate weighted TF-IDF
-```{r}
+```{r,warning = FALSE}
 generateTDM <- function(cand,path) {
   s.dir <- sprintf("%s/%s",path,cand)
   s.cor <- Corpus(DirSource(directory = s.dir,encoding = 'UTF-8'))
@@ -1037,7 +1037,7 @@ generateTDM <- function(cand,path) {
 ```
 
 Use the 'generateTDM' function above to create matrix for train and test sets.
-```{r}
+```{r,warning = FALSE}
 tdm <- lapply(list.names, generateTDM, path = path.train)
 tdm.test <- lapply(list.names, generateTDM, path = path.test)
 ```
@@ -1045,7 +1045,7 @@ tdm.test <- lapply(list.names, generateTDM, path = path.test)
 Create a function to
 * Convert matrix to dataframe
 * Add 'author' column to the newly created dataframe
-```{r}
+```{r,warning = FALSE}
 bindCandidateToTDM <- function(tdm) {
   s.mat <- t(data.matrix(tdm[['tdm']]))
   s.df <- as.data.frame(s.mat, stringsAsFactors= FALSE)
@@ -1056,13 +1056,13 @@ bindCandidateToTDM <- function(tdm) {
 ```
 
 Call the 'bindCandidateToTDM' function above to create dataframes for train and test set.
-```{r}
+```{r,warning = FALSE}
 candTDM <- lapply(tdm, bindCandidateToTDM)
 candTDM.test <- lapply(tdm.test, bindCandidateToTDM)
 ```
 
 Combine multiple dataframe together and set NA values to 0.
-```{r}
+```{r,warning = FALSE}
 tdm.stack <- do.call(rbind.fill, candTDM)
 tdm.stack[is.na(tdm.stack)] <- 0
 
@@ -1071,20 +1071,20 @@ tdm.stack.test[is.na(tdm.stack.test)] <- 0
 ```
 
 Here is the head of top 80 columns of train set dataframe.
-```{r}
+```{r,warning = FALSE}
 head(tdm.stack[,1:80])
 ```
 
 Number of rows of train set dataframe:
-```{r}
+```{r,warning = FALSE}
 nrow(tdm.stack)
 ```
 Number of columns of train set dataframe:
-```{r}
+```{r,warning = FALSE}
 ncol(tdm.stack)
 ```
 Combine train set and test set dataframe together:
-```{r}
+```{r,warning = FALSE}
 listOfDataFrames <- vector(mode = "list", length = 2)
 listOfDataFrames[[1]] <- tdm.stack
 listOfDataFrames[[2]] <- tdm.stack.test
@@ -1094,11 +1094,11 @@ tdm.stack.full[is.na(tdm.stack.full)] <- 0
 ```
 
 Number of rows of the combined dataframe:
-```{r}
+```{r,warning = FALSE}
 nrow(tdm.stack.full)
 ```
 Number of columns of the combined dataframe:
-```{r}
+```{r,warning = FALSE}
 ncol(tdm.stack.full)
 ```
 
@@ -1106,7 +1106,7 @@ ncol(tdm.stack.full)
 
 Set top 2500 rows as train set. 
 Seperate the combined dataframe to exploratory variables (tdm.stack.cl) and target variable (tdm.cand).
-```{r}
+```{r,warning = FALSE}
 tr = 1:2500
 colnames(tdm.stack.full) <- make.names(colnames(tdm.stack.full))
 tdm.cand <- tdm.stack.full[,'author']
@@ -1116,7 +1116,7 @@ tdm.stack.cl <- tdm.stack.full[,!colnames(tdm.stack.full) %in% 'author']
 - KNN model
 
 Train the KNN models from k=1 to k=15, and check accuracy on the test set.
-```{r}
+```{r,warning = FALSE}
 kk = 1:15
 high.k = 0
 high.accuracy = 0
@@ -1138,7 +1138,7 @@ for(i in kk){
 }
 ```
 
-```{r}
+```{r,warning = FALSE}
 cat('When k = ',high.k,', accuracy rate is the highest: ', high.accuracy,'.\n')
 RF.confusion =confusionMatrix(high.table)
 RF.class= as.data.frame(RF.confusion$byClass)
@@ -1148,13 +1148,13 @@ RF.class[order(-RF.class$Sensitivity),][1]
 - Naive Bayes model
 
 Train the Naive Bayes model, and check accuracy on the test set.
-```{r}
+```{r,warning = FALSE}
 model <- naive_bayes(author ~ ., data = tdm.stack.full[tr,], laplace = 1)
 preds <- predict(model, newdata = tdm.stack.full[-tr,])
 accuracy <- mean(preds == tdm.cand[-tr])
 cat("Naive Bayes accuracy: ", accuracy,'.\n')
 ```
-```{r}
+```{r,warning = FALSE}
 RF.confusion =confusionMatrix(table(preds,tdm.cand[-tr]))
 RF.class= as.data.frame(RF.confusion$byClass)
 RF.class[order(-RF.class$Sensitivity),][1]
@@ -1164,14 +1164,14 @@ RF.class[order(-RF.class$Sensitivity),][1]
 - Random Forest model
 
 Train the Random Forest model, and check accuracy on the test set.
-```{r}
+```{r,warning = FALSE}
 model<-randomForest(as.factor(author)~.,data=tdm.stack.full[tr,],
                        mtry=6,importance=TRUE)
 preds = predict(model, tdm.stack.full[-tr,], type = "response")
 accuracy2 <- mean(preds == tdm.cand[-tr])
 cat("Random Forest accuracy: ", accuracy2,'.\n')
 ```
-```{r}
+```{r,warning = FALSE}
 RF.confusion =confusionMatrix(table(preds,tdm.cand[-tr]))
 RF.class= as.data.frame(RF.confusion$byClass)
 RF.class[order(-RF.class$Sensitivity),][1]
@@ -1183,7 +1183,7 @@ We used 3 different classification models to predict the author for the document
 Below is the bar graph to compare the test set accuracy of the three models.
 From the graph below, we can see that Random forest provides the highest accuracy.
 
-```{r}
+```{r,warning = FALSE}
 library(ggplot2)
 comp<-data.frame("Model"=c("Random Forest","Naive Baye's","KNN"),
                  "Test.accuracy"=c(accuracy2,accuracy,high.accuracy))
@@ -1195,7 +1195,7 @@ ggplot(comp,aes(x=Model,y=Test.accuracy))+geom_col()
 # Association Rule Mining
 
 
-```{r}
+```{r, include=FALSE, warning = FALSE}
 
 library(tidyverse)
 library(arules)  
@@ -1208,7 +1208,7 @@ library(arulesViz)
 We read in the data using a pre-built function *read.transactions* with format set to *basket* so that we can directly obtain a transaction class object that will be fed to apriori algorithm later.
 
 From the summary of this transaction class object, we can tell that the most frequently bought items include **whole milk**, **other vegetables**, **rolls/buns**, **soda**.
-```{r}
+```{r,warning = FALSE}
 
 
 grocery = read.transactions("./data/groceries.txt", format = "basket", header = F, sep = ",")
@@ -1234,21 +1234,21 @@ groceryrules = apriori(grocery,
 arules::inspect(sort(groceryrules, by="lift")[c(1:30)])
 ```
 
-```{r}
+```{r,warning = FALSE}
 plot(groceryrules)
 plot(groceryrules, measure = c("support", "lift"), shading = "confidence")
 ```
 
 We are going to inspect subsets of the rules based the plots generated above. The threshold picked for lift is **10** and **0.8** for confidence. 
 
-```{r}
+```{r,warning = FALSE}
 arules::inspect(sort(subset(groceryrules, subset = lift > 10), by="lift"))
 arules::inspect(sort(subset(groceryrules, subset = confidence > 0.8), by = "confidence"))
 
 ```
 
 The rhs of high-confidence rules are often most frequent items. We set the confidence threshold lower and place a ceiling value here. And we filter out rules of which the rhs is among the top 5 frequent items. 
-```{r}
+```{r,warning = FALSE}
 frequent_items = c('whole milk','other vegetables','yogurt','soda','rolls/buns')
 arules::inspect(sort(subset(groceryrules, subset = confidence > 0.5 & confidence < 0.7 &
                       !rhs %in% frequent_items), by = "confidence"))
@@ -1266,7 +1266,7 @@ Some interesting findings from the confidence table are
 
 * **58%** of the time when people purchase beef and pasta, they would purchase root vegetables. **50.8%** of the time when people buy beef and butter, they would also purchase root vegetables. Both lift values are over 5, which means people are more likely to purchase vegetables when they have meat dish ingredients in cart. This makes sense as people often have veggie salad or cooked vegetables as side dish for main course like steak.
 
-```{r}
+```{r,warning = FALSE}
 saveAsGraph(head(groceryrules, n = 1000, by = "lift"), file = "groceryrules.graphml")
 ```
 
